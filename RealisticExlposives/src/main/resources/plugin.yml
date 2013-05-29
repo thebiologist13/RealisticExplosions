@@ -1,0 +1,5 @@
+name: RealisticExplosives
+version: '${project.version}'
+author: thebiologist13
+description: Make explosions on your server more realistic with debris and other effects!
+main: com.github.thebiologist13.realisticexplosives.RealisticExplosives
