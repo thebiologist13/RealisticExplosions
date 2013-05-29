@@ -1,0 +1,54 @@
+# Realistic Explosives Config
+
+# Percent chance that destroyed blocks will be ejected. Must be a whole number.
+chance: 50
+
+# List of block IDs that should not behave like debris.
+exclude:
+    - 6
+    - 8
+    - 9
+    - 10
+    - 11
+    - 26
+    - 27
+    - 28
+    - 31
+    - 32
+    - 36
+    - 37
+    - 38
+    - 39
+    - 40
+    - 50
+    - 51
+    - 68
+    - 69
+    - 64
+    - 65
+    - 66
+    - 71
+    - 75
+    - 76
+    - 77
+    - 72
+    - 93
+    - 94
+    - 96
+    - 52
+    - 61
+    - 54
+    - 116
+    - 117
+    - 119
+    - 130
+    - 131
+    - 146
+    - 147
+    - 148
+    - 149
+    - 150
+    - 151
+    - 154
+    - 157
+    

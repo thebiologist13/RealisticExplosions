@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.thebiologist13.realisticexplosives</groupId>
 	<artifactId>realisticexplosives</artifactId>
-	<version>0.0.1</version>
+	<version>1.0</version>
 	<name>RealisticExplosives</name>
 	<description>Better explosions on Bukkit servers.</description>
 
@@ -19,13 +19,6 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
 			<version>LATEST</version>
-			<type>jar</type>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.github.thebiologist13.pluginutils</groupId>
-			<artifactId>pluginutils</artifactId>
-			<version>0.0.4</version>
 			<type>jar</type>
 			<optional>true</optional>
 		</dependency>
@@ -52,26 +45,6 @@
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.0</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<artifactSet>
-						<includes>
-							<include>com.github.thebiologist13.pluginutils:pluginutils*</include>
-						</includes>
-					</artifactSet>
 				</configuration>
 			</plugin>
 		</plugins>

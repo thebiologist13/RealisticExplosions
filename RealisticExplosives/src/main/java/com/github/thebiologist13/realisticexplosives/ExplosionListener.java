@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Explosive;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,34 +20,51 @@ public class ExplosionListener implements Listener {
 	
 	public ExplosionListener(RealisticExplosives plugin) {
 		this.PLUGIN = plugin;
-		this.DEBRIS_CHANCE = plugin.getBetterConfig().getConfig().getInt("chance", 50);
+		this.DEBRIS_CHANCE = plugin.config.getInt("chance", 50);
 	}
 	
 	@EventHandler(ignoreCancelled = true)
 	public void onExplode(EntityExplodeEvent ev) {
 		List<Block> blocks = ev.blockList();
 		Location center = ev.getLocation();
-		float yield = ev.getYield();
+		float yield = 3.0f;
+		
+		if(ev.getEntity() instanceof Explosive) {
+			Explosive e = (Explosive) ev.getEntity();
+			yield = e.getYield();
+		} else if (ev.getEntity() instanceof Creeper) {
+			Creeper c = (Creeper) ev.getEntity();
+			if(c.isPowered()) {
+				yield = 6.0f;
+			} else {
+				yield = 3.0f;
+			}
+		}
 		
 		Iterator<Block> itr = blocks.iterator();
 		while(itr.hasNext()) { //Iterates through blocks
 			Block b = itr.next();
 			if((Math.random() * 100.0F) <= DEBRIS_CHANCE) { //Randomly chooses the blocks based on chance
+				
+				if(PLUGIN.config.getIntegerList("exclude").contains(b.getTypeId()))
+					continue;
+				
 				b.getDrops().clear(); //Remove the drops
 				
 				Location loc = b.getLocation();
 				//Spawn the "debris"
 				FallingBlock debris = loc.getWorld().spawnFallingBlock(loc, b.getType(), b.getData()); 
-				Location relative = debris.getLocation(center);
+				Location d = debris.getLocation();
+				Location relative = new Location(loc.getWorld(), d.getX() - center.getX(),
+						d.getY() - center.getY(), d.getZ() - center.getZ());
 				
 				//Set the vector
-				Vector vec = new Vector(yield / relative.getX(), yield / relative.getY(), 
+				Vector vec = new Vector(yield / relative.getX(), 
+						yield / relative.getY(), 
 						yield / relative.getZ());
 				
-				//Debug
-				PLUGIN.getBetterLogger().printDebugMessage("Vector X: " + vec.getX());
-				PLUGIN.getBetterLogger().printDebugMessage("Vector Y: " + vec.getY());
-				PLUGIN.getBetterLogger().printDebugMessage("Vector Z: " + vec.getZ());
+				vec.normalize();
+				vec.multiply(d.distance(center) / 2.5F);
 				
 				debris.setVelocity(vec);
 			}
